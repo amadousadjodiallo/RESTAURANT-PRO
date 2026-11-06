@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<body>
+
+
+
+
+<script>
+/* ---------- DONNÉES DE DÉMO ---------- */
+const S={
+  user:null,role:null,tab:'dash',
+  restos:[
+    {id:1,nom:'Chez Amadou',email:'chef@restaurantpro.com',plan:'Pro',statut:'Actif'},
+    {id:2,nom:'Le Baobab',email:'baobab@mail.com',plan:'Starter',statut:'Actif'},
+    {id:3,nom:'Saveurs d\'Afrique',email:'saveurs@mail.com',plan:'Pro',statut:'Suspendu'}
+  ],
+  plats:[
+    {id:1,nom:'Poulet Yassa',prix:14.5,cat:'Plats',emoji:'🍗',img:''},
+    {id:2,nom:'Thieboudienne',prix:16,cat:'Plats',emoji:'🍛',img:''},
+    {id:3,nom:'Salade fraîcheur',prix:8,cat:'Entrées',emoji:'🥗',img:''},
+    {id:4,nom:'Fondant chocolat',prix:7,cat:'Desserts',emoji:'🍫',img:''},
+    {id:5,nom:'Jus de bissap',prix:4,cat:'Boissons',emoji:'🍹',img:''}
+  ],
+  commandes:[
+    {id:101,client:'Awa Ba',items:'Poulet Yassa x2',total:29,statut:'Nouvelle'},
+    {id:102,client:'Moussa Sow',items:'Thieboudienne, Jus de bissap',total:20,statut:'Preparation'},
+    {id:103,client:'Fanta Camara',items:'Salade fraîcheur, Fondant chocolat',total:15,statut:'Prete'},
+    {id:104,client:'Ibrahim Bah',items:'Poulet Yassa',total:14.5,statut:'Livree'}
+  ],
+  clients:[
+    {nom:'Awa Ba',tel:'06 11 22 33 44',cmd:6},{nom:'Moussa Sow',tel:'06 55 66 77 88',cmd:3},
+    {nom:'Fanta Camara',tel:'07 12 34 56 78',cmd:9},{nom:'Ibrahim Bah',tel:'07 98 76 54 32',cmd:2}
+  ],
+  ventes:[{j:'Lun',v:320},{j:'Mar',v:410},{j:'Mer',v:280},{j:'Jeu',v:520},{j:'Ven',v:690},{j:'Sam',v:810},{j:'Dim',v:450}],
+  panier:{}
+};
+const $=s=>document.querySelector(s);
+const eur=n=>n.toFixed(2).replace('.',',')+' €';
+function toast(m){const t=$('#toast');t.textContent=m;t.style.display='block';setTimeout(()=>t.style.display='none',1800)}
+function nav(items){const n=$('#nav');if(!items){n.classList.add('hide');return}n.classList.remove('hide');n.innerHTML=items.map(i=>``).join('')}
+function go(t){S.tab=t;render()}
+function head(sub){return ` Restaurant Pro ${sub?` ${sub} `:''}`}
+function logout(){S.user=null;S.role=null;S.tab='dash';render()}
+
+/* ---------- ÉCRANS ---------- */
+function login(){nav(null);return ` Restaurant Pro La plateforme professionnelle pour votre restaurant
+
+
+...
