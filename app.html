@@ -1,0 +1,28 @@
+<!DOCTYPE html><html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Restaurant Pro</title><style>
+*{box-sizing:border-box}body{margin:0;font-family:-apple-system,sans-serif;background:#0b0b10;color:#fff;padding:16px 0 80px}
+.w{max-width:520px;margin:0 auto;padding:16px}.g{color:#d4af37}.m{color:#a9a9b8;font-size:13px}
+.c{background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);border-radius:16px;padding:14px;margin-bottom:12px}
+button{border:0;border-radius:12px;padding:12px;font-weight:700;background:#d4af37;color:#1a1405;width:100%;margin-top:8px;font-size:15px}
+.s{background:#2a2a35;color:#fff}.r{display:flex;justify-content:space-between;align-items:center;gap:8px}
+input{width:100%;padding:12px;border-radius:12px;border:1px solid #444;background:#111;color:#fff;font-size:16px;margin:6px 0}
+</style></head><body><div class="w" id="a"></div><script>
+var P=[['Poulet Yassa',14.5],['Thieboudienne',16],['Salade',8],['Fondant',7],['Bissap',4]];
+var O=[['Awa Ba','Poulet Yassa x2',29,0],['Moussa Sow','Thieboudienne',16,1],['Fanta Camara','Salade, Fondant',15,2]];
+var Z=[['Chez Amadou',59,1],['Le Baobab',29,1],['Saveurs',59,0]];
+var E=['Nouvelle','En preparation','Prete','Livree'],V=[320,410,280,520,690,810,450],K={},R=0,T='d';
+function $(i){return document.getElementById(i)}
+function f(x){return x.toFixed(2)+' EUR'}
+function haut(s){return '<div class="r"><h2>Restaurant <span class="g">Pro</span></h2><button class="s" style="width:auto" onclick="R=0;D()">Quitter</button></div><p class="m">'+s+'</p>'}
+function onglets(){return '<div class="r">'+[['d','Accueil'],['m','Menu'],['o','Commandes'],['v','Ventes']].map(function(x){return '<button class="s" onclick="T=\''+x[0]+'\';D()">'+x[1]+'</button>'}).join('')+'</div>'}
+function D(){var h='',t=0;V.forEach(function(x){t+=x});
+if(R==0)h='<h1 style="text-align:center;margin-top:40px">Restaurant <span class="g">Pro</span></h1><div class="c"><input value="chef@restaurantpro.com"><input type="password" value="demo1234"><button onclick="R=1;T=\'d\';D()">Entrer</button></div><button class="s" onclick="R=2;D()">Voir la page client</button><button class="s" onclick="R=3;D()">Admin</button>';
+if(R==1){h=haut('Tableau de bord')+onglets();
+if(T=='d')h+='<div class="c">Ventes 7 jours<h2 class="g">'+f(t)+'</h2></div><div class="c">Commandes<h2 class="g">'+O.length+'</h2></div><div class="c">Plats<h2 class="g">'+P.length+'</h2></div>';
+if(T=='m')h+='<div class="c"><input id="pn" placeholder="Nom du plat"><input id="pp" type="number" placeholder="Prix"><button onclick="P.push([$(\'pn\').value,parseFloat($(\'pp\').value)||0]);D()">Ajouter</button></div>'+P.map(function(p,i){return '<div class="c r"><div><b>'+p[0]+'</b><div class="g">'+f(p[1])+'</div></div><button class="s" style="width:auto" onclick="P.splice('+i+',1);D()">Suppr.</button></div>'}).join('');
+if(T=='o')h+=O.map(function(o,i){return '<div class="c"><div class="r"><b>'+o[0]+'</b><span class="m">'+E[o[3]]+'</span></div><div class="m">'+o[1]+'</div><div class="r"><span class="g">'+f(o[2])+'</span>'+(o[3]<3?'<button style="width:auto" onclick="O['+i+'][3]++;D()">Suivant</button>':'')+'</div></div>'}).join('');
+if(T=='v')h+='<div class="c"><h2 class="g">'+f(t)+'</h2>'+V.map(function(x,i){return '<div class="r m">'+['Lun','Mar','Mer','Jeu','Ven','Sam','Dim'][i]+'<div style="background:#d4af37;height:10px;border-radius:5px;width:'+(x/9)+'%"></div>'+x+'</div>'}).join('')+'</div>'}
+if(R==2){var q=0,s=0;h='<div class="r"><h2>Chez Amadou</h2><button class="s" style="width:auto" onclick="R=0;D()">Retour</button></div>';P.forEach(function(p,i){var k=K[i]||0;q+=k;s+=k*p[1];h+='<div class="c r"><div><b>'+p[0]+'</b><div class="g">'+f(p[1])+'</div></div><div class="r"><button class="s" style="width:auto" onclick="K['+i+']=Math.max(0,(K['+i+']||0)-1);D()">-</button><b>'+k+'</b><button class="s" style="width:auto" onclick="K['+i+']=(K['+i+']||0)+1;D()">+</button></div></div>'});h+='<button onclick="K={};alert(\'Commande envoyee\');D()">Commander ('+q+') '+f(s)+'</button>'}
+if(R==3){var rv=0;Z.forEach(function(z){if(z[2])rv+=z[1]});h=haut('Espace administrateur')+'<div class="c">Revenu mensuel<h2 class="g">'+rv+' EUR</h2></div>'+Z.map(function(z,i){return '<div class="c r"><div><b>'+z[0]+'</b><div class="m">'+z[1]+' EUR/mois - '+(z[2]?'Actif':'Suspendu')+'</div></div><button class="s" style="width:auto" onclick="Z['+i+'][2]=!Z['+i+'][2];D()">'+(z[2]?'Suspendre':'Reactiver')+'</button></div>'}).join('')}
+$('a').innerHTML=h}
+D();
+</script></body></html>
